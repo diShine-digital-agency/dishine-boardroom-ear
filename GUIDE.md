@@ -63,9 +63,15 @@
 - Pitfalls to avoid include sharing sensitive information over unsecured channels.
 
 ## Additional Documentation Links
-- [Installation Guide](link-to-installation)
-- [Configuration Guide](link-to-configuration)
-- [Complete API Documentation](link-to-api)
+
+| Document | Contents |
+|----------|----------|
+| [INSTALLATION.md](INSTALLATION.md) | Step-by-step setup for macOS and Linux |
+| [USAGE.md](USAGE.md) | CLI reference, workflow examples, configuration guide |
+| [TROUBLESHOOTING.md](TROUBLESHOOTING.md) | Common issues and solutions |
+| [API.md](API.md) | Python API reference for developers |
+| [SECURITY.md](SECURITY.md) | NDA compliance details, privacy guarantees, audit trails |
+| [CHANGELOG.md](CHANGELOG.md) | Version history and release notes |
 
 ---
 
