@@ -1,5 +1,5 @@
 # Boardroom Ear - Operational Guide 🕵️‍♂️
-**Strategic Local Intelligence Platform**
+**Strategic Local Stranscription Solution**
 
 This guide provides deep operational instructions for using `Boardroom Ear` effectively in high-stakes environments.
 
