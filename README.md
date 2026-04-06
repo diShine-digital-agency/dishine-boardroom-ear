@@ -4,7 +4,7 @@
 
 Board meetings, M&A discussions, and legal strategies are too sensitive for cloud recording bots. `diShine Boardroom Ear` is a portable, security-first intelligence tool that runs 100% locally on your MacBook. It transforms raw audio into structured strategic assets without a single byte leaving your device.
 
-Built by [diShine](https://dishine.it)
+Built by [diShine](https://dishine.it) | Kevin Escoda.
 
 ---
 
