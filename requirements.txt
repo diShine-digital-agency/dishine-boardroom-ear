@@ -1,0 +1,8 @@
+# diShine Boardroom Ear — Python dependencies
+# Pinned to tested versions. Run: pip install -r requirements.txt
+
+faster-whisper==1.0.3
+anthropic==0.40.0
+rich==13.9.4
+PyYAML==6.0.2
+python-dotenv==1.0.1
