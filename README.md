@@ -1,5 +1,5 @@
 
-**100% NDA-Compliant Local Transcriber & Strategic Analyst for Confidential Boardrooms.**
+###**100% NDA-Compliant Local Transcriber & Strategic Analyst for Confidential Boardrooms.**
 
 Board meetings, M&A discussions, and legal strategies are too sensitive for cloud recording bots. `diShine Boardroom Ear` is a portable, security-first intelligence tool that runs 100% locally on your MacBook. It transforms raw audio into structured strategic assets without a single byte leaving your device.
 Board meetings, M&A discussions, and legal strategies are too sensitive for cloud recording bots. `diShine Boardroom Ear` is a portable, security-first intelligence tool that runs 100% locally on your machine. It transforms raw audio into structured strategic assets without a single byte of sensitive data leaving your device.
