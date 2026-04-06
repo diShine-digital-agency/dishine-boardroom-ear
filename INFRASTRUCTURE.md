@@ -1,6 +1,6 @@
 # diShine Boardroom Ear - Technical Infrastructure
 
-`Boardroom Ear` is built with a "Privacy-First" (Edge) architecture. It leverages highly optimized transformer implementations to run resource-heavy AI workloads locally on consumer hardware (MacBooks).
+`Boardroom Ear` is built with a "Privacy-First" (Edge) architecture. It leverages optimized transformer implementations to run resource-heavy AI workloads locally on consumer hardware (MacBooks).
 
 ---
 
