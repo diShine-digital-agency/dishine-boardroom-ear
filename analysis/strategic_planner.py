@@ -20,7 +20,7 @@ class StrategicPlanner:
         console.print("[bold cyan]![/bold cyan] Generating Strategic Action Plan via Claude...")
         
         prompt = f"""
-        You are a top-tier executive consultant from diShine.
+        You are a top-tier executive consultant.
         Analyze the following boardroom transcript (anonymized for NDA compliance) and provide a professional "Strategic Action Plan".
         
         Structure your response as follows:
@@ -29,6 +29,8 @@ class StrategicPlanner:
         3. **Identified Risks**: Any potential roadblocks or legal/financial concerns.
         4. **Action Items**: A bulleted list of next steps with prioritized owners.
         5. **Confidentiality Note**: A reminder of the NDA-compliant nature of this analysis.
+
+        Avoid at all costs invented facts, halucintations and extrapolated informations. All informtions provided in you plan should be verifiable.
         
         Transcript:
         \"\"\"{transcript_text}\"\"\"
