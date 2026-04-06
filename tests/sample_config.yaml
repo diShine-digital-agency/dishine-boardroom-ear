@@ -1,0 +1,26 @@
+# diShine Boardroom Ear — Sample Test Configuration
+# Use this file as a reference for tests or CI runs.
+# Copy to config.yaml and adjust as needed.
+
+# Transcription settings
+model_size: "tiny"        # Use 'tiny' for fast CI tests
+device: "cpu"             # Always CPU in CI
+compute_type: "int8"      # Smallest memory footprint
+
+# Strategic analysis — leave blank in CI (no real API calls)
+anthropic_api_key: ""
+auto_anonymize: true
+
+# Output
+output_format: "markdown"
+output_dir: "transcripts"
+drop_dir: "drop_here"
+anonymization_level: "basic"
+
+# Logging
+log_level: "DEBUG"
+log_file: ""              # Log to stdout only in CI
+audit_log: ""             # Disable audit log in tests
+
+# Limits
+timeout: 120              # Short timeout for CI
