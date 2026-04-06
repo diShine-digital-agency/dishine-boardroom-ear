@@ -1,46 +1,92 @@
-# diShine Boardroom Ear (v1.0) 🎧
-**100% NDA-Compliant Local Transcriber & Strategic Analyst**
+# diShine Boardroom Ear
 
-The `diShine Boardroom Ear` is a portable, security-first transcription tool designed specifically for high-stakes environments: M&A discussions, board meetings, and confidential legal strategy sessions. 
+**100% NDA-Compliant Local Transcriber & Strategic Analyst for Confidential Boardrooms.**
 
-Unlike cloud-based competitors (Otter, Fireflies, etc.), **Boardroom Ear runs 100% locally on your machine.** No audio ever leaves your device during transcription.
+Board meetings, M&A discussions, and legal strategies are too sensitive for cloud recording bots. `diShine Boardroom Ear` is a portable, security-first intelligence tool that runs 100% locally on your MacBook. It transforms raw audio into structured strategic assets without a single byte leaving your device.
 
----
-
-## 🚀 Key Features
-
-- **Local-First Transcription**: Powered by `faster-whisper`, a highly optimized version of OpenAI's Whisper model.
-- **Privacy-Centric**: Designed for "Air-Gapped" or high-confidentiality use. Zero internet required for transcription.
-- **Strategic Action Plan**: Optionally generates a professional executive summary and action items using Claude (after local PII scrubbing).
-- **NDA Compliance Layer**: Built-in automatic PII (Personally Identifiable Information) scrubber to protect entity names before any cloud analysis.
-- **Mac-Native Experience**: One-click `.command` launcher for effortless operation.
+Built by [diShine](https://dishine.it)
 
 ---
 
-## 🛠 Quick Start
+## Why this exists
 
-1. **Setup**: Run `setup.sh` to initialize the environment and dependencies.
-   ```bash
-   ./setup.sh
-   ```
-2. **Drop Audio**: Put your `.mp3`, `.wav`, or `.m4a` files into the `/drop_here` folder.
-3. **Run**: Double-click `Boardroom_Ear.command` (or run `python3 Boardroom_Ear.py`).
-4. **Result**: Your transcript will appear in the `/transcripts` folder.
+Standard tools like Otter.ai or Fireflies are convenient, but they represent a massive liability in highly confidential environments. `Boardroom Ear` was built to provide the power of AI transcription and strategic analysis while maintaining a **Zero Trust** relationship with the cloud.
 
----
-
-## ⚙️ Configuration (`config.yaml`)
-
-- `model_size`: Choose from `tiny`, `base`, `small` (recommended for speed), `medium`, or `large-v3` (maximum accuracy).
-- `anthropic_api_key`: Add your Claude API key to unlock the **Strategic Action Plan** feature.
-- `auto_anonymize`: Set to `true` to ensure transcripts are scrubbed before being sent for AI analysis.
+It’s specifically designed for:
+- **Board of Directors**: Capturing strategic intent without risking data leaks.
+- **M&A Advisors**: Analyzing deal rooms and negotiation sessions locally.
+- **Legal Strategy**: Transcribing depositions or strategy sessions with absolute privacy.
+- **Consultants**: Providing high-value summaries directly on-site from a USB or local drive.
 
 ---
 
-## 🔒 Security Guarantee
-This tool is built on the philosophy of **"Edge Intelligence."** Your raw audio files are never uploaded. The optional "Strategic Action Plan" feature uses a local scrubbing layer to replace sensitive names/companies with placeholders (e.g., `[PERSON_REDACTED]`) before communicating with external LLMs.
+## What's included
+
+| Component | Logic | What it provides |
+|-----------|-------|------------------|
+| **Local Transcriber** | `faster-whisper` | 100% offline audio-to-text with INT8 quantization. |
+| **NDA Scrubber** | `PII-Scrubber` | Automatic redaction of names, emails, and entities. |
+| **Strategic Planner** | `Claude-3.5-Sonnet` | Professional action plans and executive summaries. |
+| **Edge Intelligence** | `Metal/MPS` | Optimized for Apple Silicon (M1/M2/M3/M4) performance. |
 
 ---
 
-## 🖋 Author
-Developed for **diShine** by Kush.
+## Getting started
+
+### 1. Preparation (One-time setup)
+Ensure you have Python 3.9+ and FFmpeg. Then run the installer:
+```bash
+./setup.sh
+```
+
+### 2. Operational Workflow
+1. Drop your `.mp3` or `.m4a` files into the `drop_here/` folder.
+2. Double-click `Boardroom_Ear.command` (or run `python3 Boardroom_Ear.py`).
+3. Transcripts and Strategic Plans will be generated in `transcripts/`.
+
+---
+
+## Directory Structure
+
+```text
+dishine-boardroom-ear/
+├── Boardroom_Ear.command  # Quick-launch script for Mac
+├── Boardroom_Ear.py       # Core application hub
+├── config.yaml            # Model settings and API credentials
+├── setup.sh               # Dependency installer
+├── core/                  # Optimized Whisper engine wrappers
+├── analysis/              # Scrubber and Strategic Planner modules
+├── drop_here/             # Place audio files here
+└── transcripts/           # Output folder (Transcripts + MD Reports)
+```
+
+---
+
+## Platform Support
+
+| Platform | Local Transcription | Strategic AI | Privacy Level |
+|----------|---------------------|--------------|---------------|
+| macOS (M1-M4) | Full (Metal) | Optional | 100% NDA-Complient |
+| macOS (Intel) | Full (CPU) | Optional | 100% NDA-Complient |
+| Linux (x64) | Full (CPU) | Optional | 100% NDA-Complient |
+
+---
+
+## Security & NDA Compliance
+
+The tool follows a "Local-First" architecture:
+1. **Raw Audio Storage**: Stays on the local drive. Never uploaded.
+2. **Transcription**: Happens in local memory using CTranslate2.
+3. **Anonymization**: A regex-based scrubber replaces PII with tokens (e.g., `[PERSON_REDACTED]`) before any external analysis.
+4. **Cloud Opt-in**: Strategic analysis via Anthropic is strictly opt-in and ONLY uses anonymized text.
+
+---
+
+## About diShine
+
+[diShine](https://dishine.it) is a creative tech agency based in Milan. We build boutique AI tools for digital consultants and help businesses navigate complex technology stacks with pragmatic, business-first solutions.
+
+- Web: [dishine.it](https://dishine.it)
+- GitHub: [github.com/diShine-digital-agency](https://github.com/diShine-digital-agency)
+
+Copyright (c) 2026 [diShine](https://dishine.it). All rights reserved.

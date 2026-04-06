@@ -2,7 +2,7 @@
 # --------------------------------------------------
 
 # Transcription Settings
-model_size: "small"       # options: tiny, base, small, medium, large-v3
+model_size: "tiny"       # options: tiny, base, small, medium, large-v3
 device: "auto"            # cpu, cuda, or mps (for Mac)
 compute_type: "float32"   # int8, float16, float32 (float32 is safest for CPU)
 

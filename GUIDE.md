@@ -1,61 +1,56 @@
-# diShine Boardroom Ear - Operational Guide 🕵️‍♂️
+# Boardroom Ear - Operational Guide 🕵️‍♂️
 **Strategic Local Intelligence Platform**
 
-This guide provides deep technical and operational instructions for using the `Boardroom Ear` effectively in high-stakes environments.
+This guide provides deep operational instructions for using `Boardroom Ear` effectively in high-stakes environments.
 
 ---
 
 ## 🛠 Prerequisites
 
-- **Python 3.9+**: Ideally installed via Homebrew or directly from Python.org.
-- **FFmpeg**: Required to decode audio files. `setup.sh` will try to install it via Homebrew (`brew install ffmpeg`).
+- **Python 3.9+**: Ideally installed via Homebrew.
+- **FFmpeg**: Required to decode audio files. `setup.sh` will auto-install it via Homebrew (`brew install ffmpeg`) on macOS.
 - **RAM**: Large Whisper models (like `medium` or `large-v3`) require at least 8GB of free RAM. For standard laptops, we recommend the `small` or `base` models for efficiency.
 
 ---
 
 ## 🧭 Operational Workflow
 
-### 1. Preparation
-Ensure your Mac has the necessary models downloaded before an "Air-Gapped" session. You can do this by running a test transcription on any short audio file while connected to the internet. Whisper models will be cached locally in `~/.cache/whisper`.
+### 1. Air-Gapped Session Preparation
+If you plan to use `Boardroom Ear` in a strictly air-gapped environment (no Wi-Fi), you must cache the models first.
+1. Run a test transcription on a 5-second audio file while connected to Wi-Fi.
+2. The core Whisper model will download to `~/.cache/huggingface/hub` (standard path).
+3. Once downloaded, you can disconnect your internet and perform full board-level transcriptions entirely offline.
 
-### 2. High-Confidentiality Sessions
-If you work in a boardroom, you can disconnect your Wi-Fi entirely. The core transcription logic (`Boardroom_Ear.py`) will function without any external network dependency.
+### 2. High-Confidentiality Audio Handling
+1. **Source**: For maximum quality, use a high-fidelity omnidirectional mic in the center of the table.
+2. **Format**: Use `.mp3` (128kbps+) or `.wav` for the best balance of size and quality.
+3. **Location**: Drop the file into `/drop_here`.
 
-### 3. The "Strategic Action Plan" (Optional)
-If you wish to convert your transcript into a structured consultant's report:
-- Ensure `anthropic_api_key` is set in `config.yaml`.
-- The system will automatically **Scrub (Anonymize)** the transcript. 
-- It replaces entities like names and company titles with placeholders: `[PERSON_REDACTED]`, `[COMPANY_REDACTED]`.
-- This scrubbed text is sent to Claude-3.5-Sonnet for high-level strategic reasoning.
+### 3. Executing the Strategic Plan
+To convert raw text into a consultant's executive summary:
+- Add your `anthropic_api_key` to `config.yaml`.
+- Ensure `auto_anonymize` is set to `true` (it is by default).
+- The system will scrub the transcript locally before sending a sanitized version to Claude-3.5-Sonnet.
 
 ---
 
-## 🏗 Directory Structure
+## 🏗 Directory Deep-Dive
 
-- `/core`: Transcription engine wrapper for CTranslate2.
-- `/analysis`: NDA-compliance layer (scrubber) and AI Planner (Claude integration).
-- `/drop_here`: Place your audio recordings here.
-- `/transcripts`: Final text and markdown reports are saved here.
-- `/models`: Local model cache (optional, default is ~/.cache).
+- `/core`: Contains the `faster-whisper` integration and model loaders.
+- `/analysis`: Contains the `PII-Scrubber` (regex-based) and the `StrategicPlanner` (Claude integration).
+- `/drop_here`: Input folder for raw recordings.
+- `/transcripts`: Output folder for final TXT and Markdown reports.
 
 ---
 
 ## 🏎 Performance Tuning (`config.yaml`)
 
-- **Max Speed**: `model_size: "tiny"` + `compute_type: "float32"`.
-- **Max Accuracy**: `model_size: "large-v3"` + `compute_type: "float32"`.
-- **The "diShine Sweet Spot"**: `model_size: "small"` balance of ~90% accuracy with instantaneous local response.
-
----
-
-## ❓ Troubleshooting
-
-- **"No audio files found"**: Ensure your recording is in `/drop_here` and has a valid extension (.mp3, .wav, .m4a, .mp4).
-- **"ffmpeg not found"**: Manual install: `brew install ffmpeg`.
-- **"Model load failed"**: This usually means you ran out of RAM. Try a smaller model (`base` or `tiny`) in `config.yaml`.
+- **Max Quality**: Use `model_size: "large-v3"`. Best for multi-speaker boardroom settings.
+- **Max Efficiency**: Use `model_size: "small"`. Fast, accurate (~90%), and low RAM footprint.
+- **Auto-Device**: On Mac, set `device: "auto"`. It will automatically attempt to use `MPS` (Metal Performance Shaders) if available.
 
 ---
 
 ## 🏁 Author
-**Kush @ diShine**
+**Kevin Escoda @ diShine**
 *Strategic Local Transcriber Tool v1.0*
