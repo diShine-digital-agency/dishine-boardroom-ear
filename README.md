@@ -1,8 +1,21 @@
 
 # 100% NDA-Compliant Local Transcriber & Strategic Analyst for Confidential Boardrooms.
 
+<p align="center">
+  <img src="Pictures/revised_boardroom_ear_02_live_transcription_run.webp" alt="Boardroam Ear live transcript" width="60%">
+</p>
+
 Board meetings, M&A discussions, and legal strategies are too sensitive for cloud recording bots. `diShine Boardroom Ear` is a portable, security-first intelligence tool that runs 100% locally on your MacBook. It transforms raw audio into structured strategic assets without a single byte leaving your device.
 Board meetings, M&A discussions, and legal strategies are too sensitive for cloud recording bots. `diShine Boardroom Ear` is a portable, security-first intelligence tool that runs 100% locally on your machine. It transforms raw audio into structured strategic assets without a single byte of sensitive data leaving your device.
+
+<p align="center">
+  <img src="Pictures/boardroom_ear_04_strategic_plan_window.webp" alt="Boardroam Ear strategic plan" width="49%">
+  <img src="Pictures/boardroom_ear_03_local_output_and_redaction.webp" alt="Boardroam Ear local output" width="49%">
+</p>
+
+<p align="center">
+  <img src="Pictures/boardroom_ear_01_health_check_window.webp" alt="Boardroam Ear health check" width="60%">
+</p>
 
 Built by [diShine](https://dishine.it) | Kevin Escoda.
 
