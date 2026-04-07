@@ -1,5 +1,5 @@
 
-# 100% NDA-Compliant Local Transcriber & Strategic Analyst for Confidential Boardrooms.
+# Boardroom Ear, the 100% NDA-compliant local transcriber & strategic analyst for confidential Boardrooms.
 
 <p align="center">
   <img src="Pictures/revised_boardroom_ear_02_live_transcription_run.webp" alt="Boardroam Ear live transcript" width="60%">
