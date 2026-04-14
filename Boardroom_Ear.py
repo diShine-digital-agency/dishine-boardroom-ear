@@ -392,7 +392,7 @@ def main(argv: list[str] | None = None) -> None:
 
     console.print(
         Panel(
-            "[bold cyan]diShine Boardroom Ear v1.1[/bold cyan]\n"
+            "[bold cyan]diShine Boardroom Ear v1.2[/bold cyan]\n"
             "[dim]100% NDA-Compliant Local Transcriber[/dim]",
             expand=False,
         )

@@ -147,6 +147,28 @@ The tool follows a local-first architecture:
 5. **Audit trail**: Redaction counts (not raw text) are logged to `transcripts/audit.log` for compliance reviews.
 
 See [SECURITY.md](SECURITY.md) for full details.
+
+---
+
+## How it compares
+
+Most transcription tools fall into two camps: cloud services that are easy to use but upload your data, and open-source local tools that keep data private but stop at raw text. Boardroom Ear sits in between — fully local transcription with built-in PII scrubbing and an optional (anonymised-only) strategic analysis layer.
+
+| Capability | **Boardroom Ear** | Otter.ai | Fireflies.ai | whisper.cpp | MacWhisper |
+|---|---|---|---|---|---|
+| Runs 100 % locally | Yes | No — cloud | No — cloud | Yes | Yes |
+| PII / NDA scrubber | Built-in (regex, 7 entity types, 3 redaction modes, audit log) | No | No | No | No |
+| Strategic action plans | Yes — Claude API, anonymised input only, opt-in | Built-in summaries | Built-in summaries | No | No |
+| Speaker diarisation | Not yet | Yes | Yes | Not built-in | Yes |
+| Real-time / live capture | Not yet (file-based) | Yes | Yes | Possible with wrapper | Yes |
+| GUI | CLI + one-click macOS launcher | Web + mobile app | Web app | CLI | macOS app |
+| Apple Silicon optimised | Yes (Metal / MPS) | N/A (cloud) | N/A (cloud) | Yes (Metal) | Yes (Metal) |
+| Audit trail | Yes (redaction counts only, no raw text) | No | No | No | No |
+| Air-gapped operation | Yes (`--no-plan` + cached model) | No | No | Yes | Partial |
+| Price | Free / open source | Paid subscription | Paid subscription | Free / open source | Paid (one-time) |
+
+**In short:** If your recordings can go to the cloud, Otter or Fireflies provide a more polished experience with live capture and speaker labels. If they cannot — because of NDAs, legal obligations, or policy — Boardroom Ear is the only tool that combines local transcription, automatic PII redaction, and optional AI-generated action plans in a single pipeline.
+
 ---
 
 ## Running tests

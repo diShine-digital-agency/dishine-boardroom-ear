@@ -52,7 +52,7 @@ Before any text is sent to an external API, the `PII_Scrubber` applies regex pat
 | IP addresses | IPv4 dotted-decimal |
 | URLs | http, https, ftp, bare `www.` |
 | Dates | ISO 8601, US slashes, written month names |
-| Company names | Suffix-based (Inc., Corp., LLC, GmbH, etc.) and all-caps acronyms |
+| Company names | Suffix-based (Inc., Corp., LLC, GmbH, etc.) |
 
 ### Redaction Modes
 
