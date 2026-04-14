@@ -31,10 +31,10 @@ _PATTERNS = [
         "PHONE",
         r"\b(?:\+?\d{1,3}[\s\-.])?(?:\(\d{1,4}\)[\s\-.]?)?\d{2,5}[\s\-.]\d{2,5}(?:[\s\-.]\d{1,5})?\b",
     ),
-    # Company suffixes: "Acme Corp.", "XYZ Inc", "Holdings LLC", "BIGCO" (all-caps ≥2 chars)
+    # Company suffixes: "Acme Corp.", "XYZ Inc", "Holdings LLC"
     (
         "COMPANY",
-        r"\b(?:[A-Z][A-Za-z0-9&\s]{1,40}?\s+(?:Inc\.?|Corp\.?|Ltd\.?|LLC|LLP|GmbH|S\.A\.|S\.p\.A\.|SRL|AG)|[A-Z]{2,})\b",
+        r"\b[A-Z][A-Za-z0-9&\s]{1,40}?\s+(?:Inc\.?|Corp\.?|Ltd\.?|LLC|LLP|GmbH|S\.A\.|S\.p\.A\.|SRL|AG)\b",
     ),
     # Person names: First Last (both capitalised, not all-caps acronym)
     ("PERSON", r"\b([A-Z][a-z]{1,20}\s+[A-Z][a-z]{1,20}(?:\s+[A-Z][a-z]{1,20})?)\b"),

@@ -178,6 +178,32 @@ class TestAuditLog:
 # Combined real-world sample
 # ---------------------------------------------------------------------------
 
+class TestCompanyScrubbing:
+    def test_company_with_corp_suffix(self, scrubber):
+        result = scrubber.scrub("Acme Corp signed the deal.")
+        assert "Acme Corp" not in result
+        assert "[COMPANY_REDACTED]" in result
+
+    def test_company_with_llc_suffix(self, scrubber):
+        result = scrubber.scrub("Contact Holdings LLC for info.")
+        assert "Holdings LLC" not in result
+
+    def test_no_false_positive_for_common_acronyms(self, scrubber):
+        """Common all-caps words must NOT be treated as company names."""
+        phrases = [
+            "The NDA protects all parties involved.",
+            "The CEO announced new strategy.",
+            "PII data must be scrubbed.",
+            "ONLY scrubbed text is sent to the API.",
+            "This is NOT acceptable.",
+        ]
+        for phrase in phrases:
+            result = scrubber.scrub(phrase)
+            assert "[COMPANY_REDACTED]" not in result, (
+                f"False positive: '{phrase}' became '{result}'"
+            )
+
+
 class TestRealWorldSample:
     def test_full_boardroom_sample(self, scrubber):
         raw = (
