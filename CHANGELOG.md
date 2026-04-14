@@ -5,6 +5,23 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [1.2.0] — 2026-04-14
+
+### Fixed
+- **COMPANY regex false positives**: The PII scrubber's company-name pattern previously included a catch-all `[A-Z]{2,}` branch that matched any uppercase word of two or more letters (e.g. NDA, CEO, API, FBI). This corrupted transcripts by replacing common acronyms with `[COMPANY_REDACTED]`. The pattern now only matches names followed by a legal suffix (Inc., Corp., LLC, GmbH, etc.).
+
+### Changed
+- **README.md**: Removed duplicate paragraphs, tables, and section headings left over from the v1.0-to-v1.1 merge. Fixed "NDA-Complient" and "reffer" typos. Added a competitive analysis section comparing Boardroom Ear to cloud-based alternatives and other local tools.
+- **GUIDE.md**: Replaced generic placeholder text (`<application-name>`, `[Model A]`) with concrete Boardroom Ear instructions, model recommendations, and scenario-specific guidance.
+- **INFRASTRUCTURE.md**: Corrected the scrubber placeholder description from `<REDACTED>` to `[TYPE_REDACTED]` to match the actual code output.
+- **SECURITY.md**: Removed stale "all-caps acronyms" reference from the company-name pattern description, reflecting the regex fix above.
+- **RELEASE_NOTES.md**: Updated for v1.2.0.
+
+### Added
+- Three new unit tests covering company-name detection: suffix-based match, LLC match, and a false-positive guard for common acronyms (24 tests total).
+
+---
+
 ## [1.1.0] — 2026-04-06
 
 ### Added

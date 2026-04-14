@@ -13,54 +13,85 @@
 
 ### Installation Steps for macOS
 1. Open Terminal.
-2. Execute the command: `brew install <application-name>`.
-3. Follow the on-screen instructions to complete the installation.
+2. Install Python and FFmpeg: `brew install python ffmpeg`.
+3. Clone the repository, run `./setup.sh`, and follow the prompts.
+
+See [INSTALLATION.md](INSTALLATION.md) for detailed instructions.
 
 ### Installation Steps for Linux
 1. Open a terminal window.
-2. Use the package manager to install the application:
-   - For Ubuntu: `sudo apt-get install <application-name>`
-   - For Fedora: `sudo dnf install <application-name>`
-3. Verify the installation by running `<application-name> --version`.
+2. Install prerequisites: `sudo apt install python3 python3-venv python3-pip ffmpeg`.
+3. Clone the repository, run `./setup.sh`, and follow the prompts.
+
+### First Run
+1. Place an audio file (`.mp3`, `.wav`, or `.m4a`) into `drop_here/`.
+2. Run `python3 Boardroom_Ear.py`.
+3. Find your transcript in `transcripts/`.
 
 ## Configuration Guide
 
 ### Model Recommendations
-- **Standard Use**: [Model A] is recommended for most users due to its balance of performance and cost.
-- **Performance-Critical Applications**: Opt for [Model B] for higher processing needs.
-- **Budget Options**: [Model C] can be used for basic functionality.
+- **Quick tests**: `tiny` — fastest, lowest accuracy (~85%). Good for verifying setup.
+- **Standard use**: `small` — recommended for most users. Good balance of speed and accuracy (~91%).
+- **High accuracy**: `medium` — slower but more accurate (~94%). Best for multi-speaker meetings.
+- **Maximum accuracy**: `large-v3` — slowest, highest accuracy (~97%). Requires ≥10 GB RAM.
+
+### Configuration File (`config.yaml`)
+
+All settings can be controlled via `config.yaml`, environment variables (`.env`), or CLI flags. CLI flags always take precedence. See [USAGE.md](USAGE.md) for the full reference.
 
 ## Real-World Scenarios
 
 ### Board Meetings
-- Set up a brief on project statuses and decision points to maximize efficiency.
+- Use `--model small` or `--model medium` for clear multi-speaker audio.
+- Run with `--anonymization basic` (default) to scrub names, emails, and dates before generating a strategic plan.
+- Review `transcripts/audit.log` after each session to confirm redaction counts.
 
 ### M&A (Mergers and Acquisitions)
-- Utilize secure channels for sensitive discussions and ensure all parties have necessary access.
+- Use `--anonymization full` for maximum confidentiality — all PII is replaced with blank spaces.
+- For air-gapped environments, skip the strategic plan with `--no-plan` to prevent any outbound connections.
+- Store `drop_here/` and `transcripts/` on an encrypted volume (FileVault, VeraCrypt, LUKS).
 
 ### Legal Depositions
-- Follow legal compliance protocols for recording and safeguarding. Ensure permission from involved parties.
+- Ensure permission from all parties before recording.
+- Use `--no-plan` to guarantee zero external API calls.
+- Use `--model large-v3` for maximum transcription accuracy.
+- Securely erase source audio after processing with `srm` (macOS) or `shred` (Linux).
 
 ## Advanced Topics
 
 ### Batch Processing
-- Learn to automate repetitive tasks through scheduling and batch input management.
+- Use `--batch --input-dir /path/to/recordings/` to process an entire folder of audio files in one run.
+- The tool shares the loaded Whisper model across all files in the batch, saving startup time.
 
 ### Air-Gapped Setup
-- Instructions on maintaining a secure environment without external connections.
+1. On a connected machine, run the tool once with your chosen model to trigger the download.
+2. Copy `~/.cache/huggingface/hub` to the offline machine.
+3. Set the `HF_HOME` environment variable to point to the copied cache.
+4. Use `--no-plan` to prevent any outbound connections.
+
+See [SECURITY.md](SECURITY.md) for full details.
 
 ## Troubleshooting FAQs
 1. **Why does the application not start?**
-   - Ensure installation is complete and check for proper permissions.
+   - Run `python3 Boardroom_Ear.py --health-check` to diagnose. Common causes: missing Python 3.9+, missing FFmpeg, or missing dependencies.
 2. **How do I reset my configuration?**
-   - Delete the configuration file located at `~/.config/<application-name>`.
+   - Delete `config.yaml` and run `./setup.sh` to regenerate it from the sample.
 3. **What to do if I encounter errors during installation?**
-   - Check system requirements and retry installation. Look for error messages in logs.
-...
+   - Check system requirements in [INSTALLATION.md](INSTALLATION.md). Enable debug logging with `--log-level DEBUG` and review the output.
+4. **Transcription is too slow?**
+   - Use a smaller model (`--model tiny` or `--model base`). Ensure `device: auto` is set to use GPU acceleration on Apple Silicon.
+5. **Strategic Plan generation fails?**
+   - Verify your `ANTHROPIC_API_KEY` in `.env`. Check your Anthropic account for rate limits or billing issues.
+
+See [TROUBLESHOOTING.md](TROUBLESHOOTING.md) for more solutions.
 
 ### Best Practices for Confidential Meetings
-- Always use end-to-end encryption for any sensitive communication.
-- Pitfalls to avoid include sharing sensitive information over unsecured channels.
+- Always store audio and transcripts on encrypted volumes.
+- Use `--anonymization full` for maximum PII removal before any external analysis.
+- Review `transcripts/audit.log` after every session to verify redaction completeness.
+- Securely delete source audio after processing.
+- For the most sensitive environments, use `--no-plan` to guarantee zero cloud contact.
 
 ## Additional Documentation Links
 
@@ -75,4 +106,4 @@
 
 ---
 
-This document aims to provide users of all technical backgrounds with comprehensive, step-by-step instructions and information. We focus on pragmatic solutions tailored for security compliance.
+This document provides users of all technical backgrounds with step-by-step instructions tailored for security compliance environments.

@@ -36,7 +36,7 @@ The design is focused on **"Data Sovereignty."**
 
 2. **The Scrubber (Anonymizer)**:
    A dedicated Python layer (`analysis/scrubber.py`) parses the raw transcript.
-   *It uses hard-coded regex patterns and entity recognition candidates (Names, Emails, Company Suffixes) to replace sensitive data with `<REDACTED>` placeholders.*
+   *It uses hard-coded regex patterns and entity recognition candidates (Names, Emails, Company Suffixes) to replace sensitive data with `[TYPE_REDACTED]` placeholders.*
 
 3. **Strategic Export**:
    ONLY the anonymized text is passed to the `StrategicPlanner` module.
