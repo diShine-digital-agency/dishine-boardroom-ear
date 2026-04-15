@@ -1,22 +1,34 @@
+# 🛠️ Boardroom Ear: NDA-compliant local transcriber & strategic analyst for confidential Boardrooms.
 
-# Boardroom Ear, the 100% NDA-compliant local transcriber & strategic analyst for confidential Boardrooms.
+<div align="center">
+  
+[![diShine Logo](https://dishine.it/favicon.ico)](https://dishine.it/)
+
+***Transform. Automate. Shine!***
+
+[![Website](https://img.shields.io/badge/Website-dishine.it-blue)](https://dishine.it/)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-diShine-blue)](https://linkedin.com/company/100682596)
+[![Location](https://img.shields.io/badge/Location-Milan%2C%20Italy-green)]()
+[![License: CC0](https://img.shields.io/badge/License-CC0%201.0-lightgrey)](LICENSE)
 
 <p align="center">
-  <img src="Pictures/revised_boardroom_ear_02_live_transcription_run.webp" alt="Boardroam Ear live transcript" width="60%">
+  <img src="Pictures/revised_boardroom_ear_02_live_transcription_run.webp" alt="Boardroam Ear live transcript" width="100%">
 </p>
 
-Board meetings, M&A discussions, and legal strategies are too sensitive for cloud recording bots. `diShine Boardroom Ear` is a portable, security-first intelligence tool that runs 100% locally on your MacBook. It transforms raw audio into structured strategic assets without a single byte leaving your device.
+*Board meetings, M&A discussions, and legal strategies are too sensitive for cloud recording bots. `diShine Boardroom Ear` is a portable, security-first intelligence tool that runs 100% locally on your MacBook. It transforms raw audio into structured strategic assets without a single byte leaving your device.*
+
+Built by [diShine Digital Agency](https://dishine.it). 
+
+</div>
 
 <p align="center">
-  <img src="Pictures/boardroom_ear_04_strategic_plan_window.webp" alt="Boardroam Ear strategic plan" width="49%">
-  <img src="Pictures/boardroom_ear_03_local_output_and_redaction.webp" alt="Boardroam Ear local output" width="49%">
+  <img src="Pictures/boardroom_ear_04_strategic_plan_window.png" alt="Boardroam Ear strategic plan" width="49%">
+  <img src="Pictures/boardroom_ear_03_local_output_and_redaction.pgn" alt="Boardroam Ear local output" width="49%">
 </p>
 
 <p align="center">
   <img src="Pictures/boardroom_ear_01_health_check_window.webp" alt="Boardroam Ear health check" width="60%">
 </p>
-
-Built by [diShine](https://dishine.it) | Kevin Escoda.
 
 ---
 
