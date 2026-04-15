@@ -23,7 +23,7 @@ Built by [diShine Digital Agency](https://dishine.it).
 
 <p align="center">
   <img src="Pictures/boardroom_ear_04_strategic_plan_window.png" alt="Boardroam Ear strategic plan" width="49%">
-  <img src="Pictures/boardroom_ear_03_local_output_and_redaction.pgn" alt="Boardroam Ear local output" width="49%">
+  <img src="Pictures/boardroom_ear_03_local_output_and_redaction.png" alt="Boardroam Ear local output" width="49%">
 </p>
 
 <p align="center">
