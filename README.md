@@ -179,7 +179,7 @@ Most transcription tools fall into two camps: cloud services that are easy to us
 | Air-gapped operation | Yes (`--no-plan` + cached model) | No | No | Yes | Partial |
 | Price | Free / open source | Paid subscription | Paid subscription | Free / open source | Paid (one-time) |
 
-**In short:** If your recordings can go to the cloud, Otter or Fireflies provide a more polished experience with live capture and speaker labels. If they cannot — because of NDAs, legal obligations, or policy — Boardroom Ear is the only tool that combines local transcription, automatic PII redaction, and optional AI-generated action plans in a single pipeline.
+**In short:** If your recordings can go to the cloud, Otter or Fireflies provide a more polished experience with live capture and speaker labels. If they cannot (because of NDAs, legal obligations, or policy) Boardroom Ear is the only tool that combines local transcription, automatic PII redaction, and optional AI-generated action plans in a single pipeline.
 
 ---
 
