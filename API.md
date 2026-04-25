@@ -26,7 +26,7 @@ BoardroomEar(
 | Parameter | Type | Description |
 |-----------|------|-------------|
 | `model_size` | `str` | Whisper model: `tiny`, `base`, `small`, `medium`, `large`, `large-v2`, `large-v3` |
-| `device` | `str` | Compute device: `cpu`, `cuda`, `mps`, `auto` |
+| `device` | `str` | Compute device: `cpu`, `cuda`, `auto` (no `mps` — CTranslate2 runs on CPU on Apple Silicon) |
 | `compute_type` | `str` | Precision: `int8`, `float16`, `float32`, `int8_float16` |
 | `timeout` | `int` | Max transcription seconds before `TranscriptionTimeoutError` is raised |
 

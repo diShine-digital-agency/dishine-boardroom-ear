@@ -1,0 +1,20 @@
+[project]
+name = "dishine-boardroom-ear"
+version = "1.3.0"
+description = "NDA-compliant local transcriber and strategic analyst for confidential boardrooms."
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "diShine Digital Agency", email = "hello@dishine.it" }]
+requires-python = ">=3.9"
+
+[tool.pytest.ini_options]
+# Make ``pytest tests/`` work out of the box from the repo root, without
+# requiring ``PYTHONPATH=.`` or an editable install. Also quiet the rich
+# traceback so diffs stay small in CI.
+pythonpath = ["."]
+testpaths = ["tests"]
+addopts = "-ra"
+
+[tool.ruff]
+line-length = 100
+target-version = "py39"

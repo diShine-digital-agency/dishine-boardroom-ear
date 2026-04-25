@@ -10,9 +10,11 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.prompt import Prompt
 
-from core.boardroom_ear import BoardroomEar
-from analysis.scrubber import PII_Scrubber
-from analysis.strategic_planner import StrategicPlanner
+# Heavy imports (faster_whisper, anthropic) are deferred into the call sites
+# that actually need them, so ``--help`` and ``--health-check`` work before
+# the full dependency set is installed.
+
+__version__ = "1.3.0"
 
 console = Console()
 
@@ -148,8 +150,8 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument(
         "--device",
-        choices=["cpu", "cuda", "mps", "auto"],
-        help="Compute device (overrides config.yaml).",
+        choices=["cpu", "cuda", "auto"],
+        help="Compute device (overrides config.yaml). CTranslate2 has no Metal/MPS backend, so Apple Silicon resolves to 'cpu' via 'auto'.",
     )
     parser.add_argument(
         "--compute-type",
@@ -247,12 +249,15 @@ def discover_audio_files(directory: str) -> list[str]:
 
 def process_file(
     audio_path: str,
-    ear: BoardroomEar,
+    ear,  # core.boardroom_ear.BoardroomEar — untyped to keep this import lazy
     config: dict,
     dry_run: bool = False,
     no_plan: bool = False,
 ) -> None:
     logger = logging.getLogger(__name__)
+    # Deferred — scrubber is cheap, StrategicPlanner pulls in the anthropic SDK.
+    from analysis.scrubber import PII_Scrubber
+    from analysis.strategic_planner import StrategicPlanner
 
     # Transcribe
     transcript = ear.transcribe(audio_path, output_dir=config["output_dir"], dry_run=dry_run)
@@ -314,7 +319,7 @@ def process_file(
 
 def health_check(config: dict) -> None:
     """Print a diagnostics summary and exit."""
-    import importlib
+    import importlib.util  # submodule must be imported explicitly (Python 3.12+)
 
     console.print(Panel("[bold cyan]diShine Boardroom Ear — Health Check[/bold cyan]", expand=False))
 
@@ -392,8 +397,8 @@ def main(argv: list[str] | None = None) -> None:
 
     console.print(
         Panel(
-            "[bold cyan]diShine Boardroom Ear v1.2[/bold cyan]\n"
-            "[dim]100% NDA-Compliant Local Transcriber[/dim]",
+            f"[bold cyan]diShine Boardroom Ear v{__version__}[/bold cyan]\n"
+            "[dim]100% NDA-compliant local transcriber[/dim]",
             expand=False,
         )
     )
@@ -428,7 +433,10 @@ def main(argv: list[str] | None = None) -> None:
         # Default: process only the most-recently-modified file
         audio_files = [audio_files[0]]
 
-    # Initialise transcription engine once (model shared across batch)
+    # Initialise transcription engine once (model shared across batch).
+    # Import is deferred so --help / --health-check do not require faster-whisper.
+    from core.boardroom_ear import BoardroomEar
+
     ear = BoardroomEar(
         model_size=config["model_size"],
         device=config["device"],

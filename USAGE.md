@@ -24,7 +24,7 @@ python3 Boardroom_Ear.py [OPTIONS]
 | Flag | Description | Default |
 |------|-------------|---------|
 | `--model` | Whisper model size: `tiny`, `base`, `small`, `medium`, `large`, `large-v2`, `large-v3` | `small` |
-| `--device` | Compute device: `cpu`, `cuda`, `mps`, `auto` | `auto` |
+| `--device` | Compute device: `cpu`, `cuda`, `auto` (CTranslate2 has no Metal/MPS backend) | `auto` |
 | `--compute-type` | Precision: `int8`, `float16`, `float32`, `int8_float16` | `float32` |
 | `--input FILE` | Process a specific audio file | — |
 | `--input-dir DIR` | Scan a directory (use with `--batch`) | `drop_here/` |
@@ -87,7 +87,7 @@ The file is loaded on startup. CLI flags always override config file values.
 ```yaml
 # Transcription
 model_size: "small"       # tiny | base | small | medium | large | large-v3
-device: "auto"            # cpu | cuda | mps | auto
+device: "auto"            # cpu | cuda | auto  (no mps — CTranslate2 runs on CPU on Apple Silicon)
 compute_type: "float32"   # int8 | float16 | float32 | int8_float16
 
 # Strategic Analysis

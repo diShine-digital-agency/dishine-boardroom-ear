@@ -99,10 +99,25 @@ If you need to run in an environment without internet access:
 
 ---
 
-## Verifying the Installation
+## Verifying the installation
 
 ```bash
 python3 Boardroom_Ear.py --health-check
 ```
 
 All checks should show ✔. See [TROUBLESHOOTING.md](TROUBLESHOOTING.md) if any fail.
+
+The health check and `--help` are deliberately kept independent of `faster-whisper` and `anthropic`, so you can run them *before* `./setup.sh` to see exactly what is missing.
+
+---
+
+## Running the tests
+
+From the repository root, with the dev dependencies installed:
+
+```bash
+pip install -r requirements-dev.txt
+pytest tests/
+```
+
+`pyproject.toml` adds the repo root to `sys.path`, so no editable install or `PYTHONPATH=.` is required. The scrubber suite (24 tests) does not depend on `faster-whisper` or `anthropic` and runs with just `pytest`, `pyyaml`, `python-dotenv`, and `rich`.

@@ -108,12 +108,37 @@ macOS Gatekeeper may block the script on first run:
 xattr -d com.apple.quarantine Boardroom_Ear.command
 ```
 
-### MPS (Metal) not being used on Apple Silicon
-Check that `device: "auto"` is set in `config.yaml`. If Metal is still not used:
+### Apple Silicon acceleration — what `device: auto` actually does
+Boardroom Ear runs on **CTranslate2** (the inference engine behind `faster-whisper`), not PyTorch. CTranslate2 does not support Apple Metal / MPS. On Apple Silicon, `device: auto` resolves to `cpu`, and speed comes from CTranslate2's optimised ARM NEON CPU kernels and INT8 quantisation — not from the GPU.
+
+So `torch.backends.mps.is_available()` is **irrelevant** here; no PyTorch call path exists.
+
+To verify acceleration is active:
+1. The startup banner prints the resolved `device` and `compute_type`. On M1–M4 you should see `device=cpu` and a quantised `compute_type` such as `int8` or `int8_float16`.
+2. If transcription feels slow, switch to a smaller model (`--model small` or `--model base`) or a more aggressive `compute_type`:
+   ```bash
+   python3 Boardroom_Ear.py --model small --compute-type int8
+   ```
+
+---
+
+## Tests & Development
+
+### `pytest tests/` fails with `ModuleNotFoundError: No module named 'analysis'`
+On versions ≥ 1.3.0 this is handled by `pyproject.toml` (which adds the repo root to `sys.path`). If you are on an older clone, either pull the latest `main` or run:
 ```bash
-python3 -c "import torch; print(torch.backends.mps.is_available())"
+PYTHONPATH=. pytest tests/
 ```
-If this prints `False`, update PyTorch: `pip install --upgrade torch`.
+
+### `pytest tests/` fails with `ModuleNotFoundError: No module named 'anthropic'`
+The scrubber test suite does not need `anthropic`. On versions ≥ 1.3.0 the package `__init__.py` files no longer eagerly import `StrategicPlanner`, so `from analysis.scrubber import PII_Scrubber` works with only the lightweight dev dependencies installed:
+```bash
+pip install pytest pyyaml python-dotenv rich
+pytest tests/
+```
+
+### `--health-check` run before `./setup.sh`
+The health check is designed to run on a fresh clone with only `rich`, `PyYAML`, and `python-dotenv` installed, so it can tell you *what is missing*. A report that lists `faster-whisper: not installed` or `anthropic: not installed` is expected before setup — run `./setup.sh` to install the full stack, then re-run the health check to confirm green.
 
 ---
 

@@ -116,3 +116,27 @@ If your NDA prohibits sending any derivative content externally, use `--no-plan`
 3. **Encrypted storage**: Store `drop_here/` and `transcripts/` on an encrypted volume (macOS FileVault, VeraCrypt, LUKS).
 4. **Secure deletion**: After processing, securely erase source audio with `srm` (macOS) or `shred` (Linux).
 5. **Audit review**: Review `transcripts/audit.log` after each session to confirm redaction counts match expectations.
+
+---
+
+## Supported versions
+
+| Version | Supported |
+|---------|-----------|
+| 1.3.x   | Yes       |
+| 1.2.x   | Security fixes only |
+| < 1.2   | No        |
+
+---
+
+## Reporting a vulnerability
+
+If you find a security or privacy issue in Boardroom Ear, please report it responsibly.
+
+**Do not open a public issue.** Instead, email [hello@dishine.it](mailto:hello@dishine.it) with:
+
+- A description of the issue.
+- Steps to reproduce.
+- The impact you believe it has.
+
+We will acknowledge receipt within 48 hours and aim to release a fix within 7 days for critical issues.

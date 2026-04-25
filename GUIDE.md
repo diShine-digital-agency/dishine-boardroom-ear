@@ -86,7 +86,7 @@ See [SECURITY.md](SECURITY.md) for full details.
 
 See [TROUBLESHOOTING.md](TROUBLESHOOTING.md) for more solutions.
 
-### Best Practices for Confidential Meetings
+## Best Practices
 - Always store audio and transcripts on encrypted volumes.
 - Use `--anonymization full` for maximum PII removal before any external analysis.
 - Review `transcripts/audit.log` after every session to verify redaction completeness.

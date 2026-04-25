@@ -5,6 +5,34 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [1.3.0] — 2026-04-24
+
+### Fixed
+
+- **`--help` and `--health-check` worked only after the full dependency set was installed.** `core/__init__.py` and `analysis/__init__.py` eagerly re-exported the heavy classes, so importing either package forced `faster-whisper` (core) or `anthropic` (analysis) to load. `Boardroom_Ear.py` imported both at module level, meaning the diagnostic that is meant to run *before* install actually crashed at import time with `ModuleNotFoundError`. Both package `__init__.py` files are now empty, and the heavy imports in `Boardroom_Ear.py` are deferred to the call sites that need them. Running `--help` and `--health-check` now works on a fresh clone with only `rich`, `PyYAML`, and `python-dotenv` present — and the health check correctly reports which dependencies are still missing.
+- **`pytest tests/` failed on a fresh clone** with `ModuleNotFoundError: No module named 'analysis'`, because there was no pytest configuration to add the repo root to `sys.path`. Added a `pyproject.toml` with `[tool.pytest.ini_options] pythonpath = ["."]`, so `pytest tests/` now works from the repo root without `PYTHONPATH=.` or an editable install.
+- **Scrubber-only use required `anthropic`.** Importing `analysis.scrubber` pulled in `analysis/__init__.py`, which pulled in `strategic_planner`, which required the `anthropic` SDK even if the caller never touched the cloud path. The eager re-export has been removed; `from analysis.scrubber import PII_Scrubber` now works standalone.
+- **`--health-check` crashed on Python 3.12+** with `module 'importlib' has no attribute 'util'`. The submodule is no longer auto-imported in modern Python; now imported explicitly as `importlib.util`.
+- **Banner showed a hardcoded `v1.2`** and would have stayed on 1.2 forever regardless of release. Replaced with a `__version__` module constant that `pyproject.toml` and the banner both reference.
+
+### Changed
+
+- **`config.yaml` sample now matches the documented default.** The sample and the USAGE/GUIDE docs converge on `model_size: "small"`. The sample previously shipped `tiny`, which silently contradicted every doc that listed `small` as the default.
+- **TROUBLESHOOTING — removed misleading PyTorch MPS advice.** Boardroom Ear runs on CTranslate2, not PyTorch, so `torch.backends.mps.is_available()` is irrelevant to whether transcription is hardware-accelerated. The Apple Silicon entry now explains what `device: auto` actually does and how to verify CPU-level acceleration.
+- **README — softened the overclaim of "Metal/MPS" support.** CTranslate2 (the inference engine under faster-whisper) does not support Apple Metal / MPS; Apple Silicon performance comes from its optimised ARM NEON CPU kernels. The platform table and feature copy now reflect that accurately.
+- **GUIDE — fixed heading hierarchy.** "Best Practices for Confidential Meetings" was nested as H3 under "Troubleshooting FAQs"; promoted to its own H2 section to match the Table of Contents.
+- **README** — fixed three image alt-text typos ("Boardroam Ear" → "Boardroom Ear"), removed the empty-href Location badge, and added a Python version badge.
+- **`RELEASE_NOTES.md` removed.** Duplicated CHANGELOG and inevitably drifted. CHANGELOG is now the single source of truth.
+- **`--device mps` no longer advertised.** The CLI choice, the `VALID_DEVICES` set in `core/boardroom_ear.py`, and the device tables in USAGE.md, API.md, and TROUBLESHOOTING.md previously listed `mps` as an option. CTranslate2 has no Metal/MPS backend, so selecting it would have produced confusing runtime errors. `mps` is now removed from the accepted values and docs.
+- **INFRASTRUCTURE.md** — rewritten to reflect the actual Apple Silicon path (ARM NEON CPU kernels, not GPU/MPS), cite the faster-whisper benchmarks rather than asserting unsourced performance numbers, and match the project's overall typography (em-dash separators, sentence-case headings).
+- **Repo cleanup** — removed committed `__pycache__` artefacts, a 1-byte `Pictures/test` placeholder, and six unreferenced image files (three pre-revision screenshots and three unused `revised_` variants).
+
+### Added
+
+- `pyproject.toml` — version, pytest config (`pythonpath`, `testpaths`), and ruff line-length.
+- **TROUBLESHOOTING** — new entries for the `pytest` import failure, running the scrubber without `anthropic`, and interpreting a pre-install `--health-check` report.
+- **INSTALLATION** — "Running the tests" section explaining that `pyproject.toml` removes the `PYTHONPATH=.` requirement and that the 24-test scrubber suite runs without `faster-whisper` or `anthropic`.
+
 ## [1.2.0] — 2026-04-14
 
 ### Fixed

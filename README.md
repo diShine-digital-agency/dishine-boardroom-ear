@@ -8,11 +8,11 @@
 
 [![Website](https://img.shields.io/badge/Website-dishine.it-blue)](https://dishine.it/)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-diShine-blue)](https://linkedin.com/company/100682596)
-[![Location](https://img.shields.io/badge/Location-Milan%2C%20Italy-green)]()
+[![Python](https://img.shields.io/badge/Python-3.9%2B-blue)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-lightgrey)](LICENSE)
 
 <p align="center">
-  <img src="Pictures/revised_boardroom_ear_02_live_transcription_run.webp" alt="Boardroam Ear live transcript" width="100%">
+  <img src="Pictures/revised_boardroom_ear_02_live_transcription_run.webp" alt="Boardroom Ear live transcript" width="100%">
 </p>
 
 *Board meetings, M&A discussions, and legal strategies are too sensitive for cloud recording bots. `diShine Boardroom Ear` is a portable, security-first intelligence tool that runs 100% locally on your MacBook. It transforms raw audio into structured strategic assets without a single byte leaving your device.*
@@ -22,12 +22,12 @@ Built by [diShine Digital Agency](https://dishine.it).
 </div>
 
 <p align="center">
-  <img src="Pictures/boardroom_ear_04_strategic_plan_window.png" alt="Boardroam Ear strategic plan" width="49%">
-  <img src="Pictures/boardroom_ear_03_local_output_and_redaction.png" alt="Boardroam Ear local output" width="49%">
+  <img src="Pictures/boardroom_ear_04_strategic_plan_window.png" alt="Boardroom Ear strategic plan" width="49%">
+  <img src="Pictures/boardroom_ear_03_local_output_and_redaction.png" alt="Boardroom Ear local output" width="49%">
 </p>
 
 <p align="center">
-  <img src="Pictures/boardroom_ear_01_health_check_window.webp" alt="Boardroam Ear health check" width="60%">
+  <img src="Pictures/boardroom_ear_01_health_check_window.webp" alt="Boardroom Ear health check" width="60%">
 </p>
 
 ---
@@ -51,7 +51,7 @@ It is specifically designed for:
 | **Local Transcriber** | `faster-whisper` | 100% offline audio-to-text with INT8 quantisation. |
 | **NDA Scrubber** | Regex + pattern library | Automatic redaction of names, emails, phones, IPs, URLs, dates, and entities. |
 | **Strategic Planner** | `Claude-3.5-Sonnet` | Professional action plans and executive summaries (opt-in, anonymised input only). |
-| **Edge Intelligence** | Metal/MPS | Optimised for Apple Silicon (M1-M4) performance. |
+| **Apple Silicon acceleration** | CTranslate2 (ARM NEON) | Optimised CPU kernels for M1–M4. No Metal / MPS dependency. |
 
 ---
 
@@ -72,11 +72,11 @@ For a complete guide, refer to [GUIDE.md](GUIDE.md)
 
 ## Platform support
 
-| Platform | Local Transcription | Strategic AI | Privacy Level |
+| Platform | Local transcription | Strategic AI | Privacy level |
 |----------|---------------------|--------------|---------------|
-| macOS (M1-M4) | Full (Metal/MPS) | Optional | 100% NDA-Compliant |
-| macOS (Intel) | Full (CPU) | Optional | 100% NDA-Compliant |
-| Linux (x64) | Full (CPU/CUDA) | Optional | 100% NDA-Compliant |
+| macOS (Apple Silicon, M1–M4) | Full — CTranslate2 CPU backend, ARM NEON optimised | Optional | 100% NDA-compliant |
+| macOS (Intel) | Full — CTranslate2 CPU backend | Optional | 100% NDA-compliant |
+| Linux (x64) | Full — CPU, optional CUDA | Optional | 100% NDA-compliant |
 
 
 ## Getting started
@@ -174,7 +174,7 @@ Most transcription tools fall into two camps: cloud services that are easy to us
 | Speaker diarisation | Not yet | Yes | Yes | Not built-in | Yes |
 | Real-time / live capture | Not yet (file-based) | Yes | Yes | Possible with wrapper | Yes |
 | GUI | CLI + one-click macOS launcher | Web + mobile app | Web app | CLI | macOS app |
-| Apple Silicon optimised | Yes (Metal / MPS) | N/A (cloud) | N/A (cloud) | Yes (Metal) | Yes (Metal) |
+| Apple Silicon optimised | Yes (CTranslate2 ARM NEON) | N/A (cloud) | N/A (cloud) | Yes (Metal) | Yes (Metal) |
 | Audit trail | Yes (redaction counts only, no raw text) | No | No | No | No |
 | Air-gapped operation | Yes (`--no-plan` + cached model) | No | No | Yes | Partial |
 | Price | Free / open source | Paid subscription | Paid subscription | Free / open source | Paid (one-time) |
@@ -185,10 +185,14 @@ Most transcription tools fall into two camps: cloud services that are easy to us
 
 ## Running tests
 
+From the repository root:
+
 ```bash
 pip install -r requirements-dev.txt
 pytest tests/ -v
 ```
+
+`pyproject.toml` adds the repo root to `pythonpath`, so no editable install or `PYTHONPATH=.` export is needed. The suite (currently 24 tests) exercises the PII scrubber end-to-end and does not require `faster-whisper` or `anthropic`.
 
 ---
 

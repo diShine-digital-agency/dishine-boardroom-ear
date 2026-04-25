@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 
 SUPPORTED_EXTENSIONS = {".mp3", ".wav", ".m4a", ".mp4", ".ogg", ".flac", ".aac"}
 VALID_MODEL_SIZES = {"tiny", "base", "small", "medium", "large", "large-v2", "large-v3"}
-VALID_DEVICES = {"cpu", "cuda", "mps", "auto"}
+VALID_DEVICES = {"cpu", "cuda", "auto"}  # CTranslate2 has no Metal/MPS backend
 VALID_COMPUTE_TYPES = {"int8", "float16", "float32", "int8_float16"}
 
 DEFAULT_TIMEOUT = 3600  # 1 hour

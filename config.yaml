@@ -1,14 +1,26 @@
-# diShine Boardroom Ear - Configuration
+# diShine Boardroom Ear — default configuration.
+# Every value below can be overridden by an environment variable (see .env.example)
+# or a CLI flag. CLI flags always win.
 # --------------------------------------------------
 
-# Transcription Settings
-model_size: "tiny"       # options: tiny, base, small, medium, large-v3
-device: "auto"            # cpu, cuda, or mps (for Mac)
-compute_type: "float32"   # int8, float16, float32 (float32 is safest for CPU)
+# Transcription
+model_size: "small"       # tiny | base | small | medium | large | large-v2 | large-v3
+device: "auto"            # cpu | cuda | auto  (CTranslate2 chooses automatically when "auto")
+compute_type: "float32"   # int8 | float16 | float32 | int8_float16  (float32 is safest on CPU)
 
-# Strategic Analysis Settings
-anthropic_api_key: ""     # Add your Claude API key here for Strategic Action Plans
-auto_anonymize: true      # Scrub PII before sending to Claude
+# Strategic analysis (opt-in, anonymised input only)
+anthropic_api_key: ""     # Or set ANTHROPIC_API_KEY in .env
+auto_anonymize: true      # Scrub PII before the API call
 
-# Output Settings
-output_format: "markdown" # txt, markdown, or both
+# Output
+output_format: "markdown" # txt | markdown | both
+output_dir: "transcripts"
+drop_dir: "drop_here"
+anonymization_level: "basic"  # none | basic | full
+
+# Logging
+log_level: "INFO"         # DEBUG | INFO | WARNING | ERROR
+audit_log: "transcripts/audit.log"
+
+# Safety limits
+timeout: 3600             # seconds — hard cap on a single transcription
