@@ -47,8 +47,7 @@ Explicitly loads the Whisper model into memory. Called automatically by `transcr
 ```python
 ear.transcribe(
     audio_path: str,
-    output_dir: str = "transcripts",
-    dry_run: bool = False
+    output_dir: str = "transcripts"
 ) -> str
 ```
 
@@ -58,9 +57,12 @@ Transcribes *audio_path* and saves the result to *output_dir*.
 |-----------|------|-------------|
 | `audio_path` | `str` | Path to the audio file |
 | `output_dir` | `str` | Directory where the `.txt` transcript will be saved |
-| `dry_run` | `bool` | If `True`, validates inputs but skips actual transcription |
 
-**Returns:** `str` — full transcript text (empty string in dry-run mode).
+> **Note (v1.3.1):** The former `dry_run` parameter was removed. Dry-run now
+> lives entirely in the CLI (`--dry-run`), which validates inputs without
+> importing or loading the Whisper model.
+
+**Returns:** `str` — full transcript text.
 
 **Raises:**
 - `FileNotFoundError` — audio file not found

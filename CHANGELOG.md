@@ -5,6 +5,19 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [1.3.1] — 2026-08-08
+
+### Fixed
+
+- **A plain run crashed on a fresh clone with `Fatal Error: No module named 'faster_whisper'`** — even when there was nothing to transcribe. `validate_config` imported `VALID_*` constants from `core.boardroom_ear`, which imports `faster-whisper` at module level, so every run (including the "no audio files found" path) required the full dependency set. The constants are now defined in `Boardroom_Ear.py` (mirroring `core`), and the `core` import is wrapped in a clear "Missing dependency" message that points at `pip install -r requirements.txt` and `--health-check`.
+- **`--no-plan` crashed when `anthropic` was not installed.** `process_file` imported `StrategicPlanner` (and therefore the `anthropic` SDK) unconditionally, even when planning was explicitly disabled. Both the scrubber and the planner are now imported only when an API key is present and planning has not been disabled.
+- **`--dry-run` required `faster-whisper` and loaded the Whisper model.** Dry-run is meant to validate the setup *before* the heavy install; it now lists and validates the candidate files directly in `main()` and exits without importing `faster-whisper` or loading a model. It exits with code 1 when any input file is missing. The now-dead `dry_run` parameter has been removed from `BoardroomEar.transcribe()` and `process_file()`.
+- **Untracked the artefacts v1.3.0 claimed to remove.** `RELEASE_NOTES.md`, committed `__pycache__` / `.pytest_cache` files, the 1-byte `Pictures/test` placeholder, and the six superseded non-`revised_` screenshots were all still tracked. They are now actually removed, matching what the 1.3.0 changelog announced.
+
+### Added
+
+- `tests/test_cli.py` — 11 regression tests covering config validation without `faster-whisper`, `--no-plan` without `anthropic`, dry-run behaviour, the health check, and audio-file discovery (35 tests total).
+
 ## [1.3.0] — 2026-04-24
 
 ### Fixed

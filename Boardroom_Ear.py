@@ -14,7 +14,7 @@ from rich.prompt import Prompt
 # that actually need them, so ``--help`` and ``--health-check`` work before
 # the full dependency set is installed.
 
-__version__ = "1.3.0"
+__version__ = "1.3.1"
 
 console = Console()
 
@@ -65,6 +65,15 @@ _DEFAULTS = {
 }
 
 
+# Valid values mirror core.boardroom_ear. Duplicated here so that config
+# validation does not require importing ``core.boardroom_ear`` — which would
+# pull in ``faster-whisper`` and break ``--help``/``--health-check`` on a
+# fresh clone before the heavy dependencies are installed.
+VALID_MODEL_SIZES = {"tiny", "base", "small", "medium", "large", "large-v2", "large-v3"}
+VALID_DEVICES = {"cpu", "cuda", "auto"}
+VALID_COMPUTE_TYPES = {"int8", "float16", "float32", "int8_float16"}
+
+
 def load_config(config_path: str = "config.yaml") -> dict:
     """Load YAML config, apply .env overrides, and fill defaults."""
     load_dotenv()
@@ -100,8 +109,6 @@ def load_config(config_path: str = "config.yaml") -> dict:
 
 def validate_config(config: dict) -> None:
     """Raise ValueError for clearly invalid configuration values."""
-    from core.boardroom_ear import VALID_MODEL_SIZES, VALID_DEVICES, VALID_COMPUTE_TYPES
-
     ms = config.get("model_size", "")
     if ms not in VALID_MODEL_SIZES:
         raise ValueError(
@@ -251,21 +258,17 @@ def process_file(
     audio_path: str,
     ear,  # core.boardroom_ear.BoardroomEar — untyped to keep this import lazy
     config: dict,
-    dry_run: bool = False,
     no_plan: bool = False,
 ) -> None:
     logger = logging.getLogger(__name__)
-    # Deferred — scrubber is cheap, StrategicPlanner pulls in the anthropic SDK.
-    from analysis.scrubber import PII_Scrubber
-    from analysis.strategic_planner import StrategicPlanner
 
     # Transcribe
-    transcript = ear.transcribe(audio_path, output_dir=config["output_dir"], dry_run=dry_run)
+    transcript = ear.transcribe(audio_path, output_dir=config["output_dir"])
 
-    if dry_run:
-        return
-
-    # Anonymise
+    # Anonymise + plan only when a plan will actually be generated.
+    # Deferred imports: the scrubber is cheap; StrategicPlanner pulls in the
+    # anthropic SDK, so it is imported only when an API key is available and
+    # planning has not been disabled via --no-plan.
     anon_level = config.get("anonymization_level", "basic")
     api_key = config.get("anthropic_api_key", "")
 
@@ -278,6 +281,9 @@ def process_file(
         )
 
     if api_key and not no_plan:
+        from analysis.scrubber import PII_Scrubber
+        from analysis.strategic_planner import StrategicPlanner
+
         if anon_level != "none":
             redaction_mode = "blank" if anon_level == "full" else "token"
             scrubber = PII_Scrubber(
@@ -433,9 +439,35 @@ def main(argv: list[str] | None = None) -> None:
         # Default: process only the most-recently-modified file
         audio_files = [audio_files[0]]
 
+    # Dry-run validates inputs only; no transcription engine required.
+    if args.dry_run:
+        missing = 0
+        for audio_path in audio_files:
+            exists = os.path.isfile(audio_path)
+            missing += not exists
+            icon = "[bold green]✔[/bold green]" if exists else "[bold red]✗[/bold red]"
+            console.print(f"  {icon} {audio_path}")
+            logger.info("Dry-run: %s %s", "found" if exists else "MISSING", audio_path)
+        console.print(
+            "\n[bold yellow]DRY-RUN:[/bold yellow] "
+            f"{len(audio_files)} file(s) would be processed. No transcription performed."
+        )
+        if missing:
+            console.print(f"[bold red]✗ {missing} file(s) missing or unreadable.[/bold red]")
+        sys.exit(1 if missing else 0)
+
     # Initialise transcription engine once (model shared across batch).
-    # Import is deferred so --help / --health-check do not require faster-whisper.
-    from core.boardroom_ear import BoardroomEar
+    # Import is deferred so --help / --health-check / empty-input paths do not
+    # require faster-whisper to be installed.
+    try:
+        from core.boardroom_ear import BoardroomEar
+    except ImportError as exc:
+        console.print(
+            f"[bold red]Missing dependency:[/bold red] {exc}. "
+            "Run [bold]pip install -r requirements.txt[/bold] first "
+            "(or use [bold]--health-check[/bold] to see what is missing)."
+        )
+        sys.exit(1)
 
     ear = BoardroomEar(
         model_size=config["model_size"],
@@ -452,7 +484,6 @@ def main(argv: list[str] | None = None) -> None:
                 audio_path=audio_path,
                 ear=ear,
                 config=config,
-                dry_run=args.dry_run,
                 no_plan=args.no_plan,
             )
         except (FileNotFoundError, ValueError) as exc:
