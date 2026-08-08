@@ -192,7 +192,7 @@ pip install -r requirements-dev.txt
 pytest tests/ -v
 ```
 
-`pyproject.toml` adds the repo root to `pythonpath`, so no editable install or `PYTHONPATH=.` export is needed. The suite (currently 24 tests) exercises the PII scrubber end-to-end and does not require `faster-whisper` or `anthropic`.
+`pyproject.toml` adds the repo root to `pythonpath`, so no editable install or `PYTHONPATH=.` export is needed. The suite (currently 35 tests) exercises the PII scrubber and the CLI orchestration end-to-end and does not require `faster-whisper` or `anthropic`.
 
 ---
 

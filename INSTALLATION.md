@@ -120,4 +120,4 @@ pip install -r requirements-dev.txt
 pytest tests/
 ```
 
-`pyproject.toml` adds the repo root to `sys.path`, so no editable install or `PYTHONPATH=.` is required. The scrubber suite (24 tests) does not depend on `faster-whisper` or `anthropic` and runs with just `pytest`, `pyyaml`, `python-dotenv`, and `rich`.
+`pyproject.toml` adds the repo root to `sys.path`, so no editable install or `PYTHONPATH=.` is required. The suite (35 tests: PII scrubber + CLI orchestration) does not depend on `faster-whisper` or `anthropic` and runs with just `pytest`, `pyyaml`, `python-dotenv`, and `rich`.

@@ -34,6 +34,15 @@ pip install --upgrade certifi
 
 ## Transcription Issues
 
+### `Missing dependency: No module named 'faster_whisper'`
+The heavy dependencies are not installed yet. Either run `./setup.sh` or:
+```bash
+pip install -r requirements.txt
+```
+`--help`, `--health-check`, and `--dry-run` work without them; only actual
+transcription requires `faster-whisper`. On versions < 1.3.1 this error could
+appear even when there were no audio files to process — upgrade to 1.3.1+.
+
 ### `FileNotFoundError: Audio file not found`
 The file path is wrong. Check that:
 - The file is in `drop_here/` (or that you passed the correct `--input` path).
@@ -66,6 +75,11 @@ The audio may have a very long silence at the start. This is normal — Whisper 
 ---
 
 ## Strategic Plan Issues
+
+### `No module named 'anthropic'` even with `--no-plan`
+Fixed in 1.3.1: versions ≤ 1.3.0 imported the `anthropic` SDK unconditionally
+at the start of each file's processing, so `--no-plan` could not run without
+it. Upgrade, or install the SDK: `pip install anthropic`.
 
 ### `Warning: Anthropic API key not set`
 Either:

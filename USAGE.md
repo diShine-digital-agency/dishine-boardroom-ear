@@ -31,7 +31,7 @@ python3 Boardroom_Ear.py [OPTIONS]
 | `--output-dir DIR` | Where to save transcripts | `transcripts/` |
 | `--anonymization` | `none`, `basic` (token), `full` (blank) | `basic` |
 | `--batch` | Process all audio files in the input directory | off |
-| `--dry-run` | Validate setup without actually transcribing | off |
+| `--dry-run` | Validate setup and list the files that would be processed — without importing `faster-whisper` or loading a model. Exits non-zero if any input file is missing. | off |
 | `--no-plan` | Skip Strategic Action Plan even if an API key is set | off |
 | `--log-level` | `DEBUG`, `INFO`, `WARNING`, `ERROR` | `INFO` |
 | `--config FILE` | Path to a custom `config.yaml` | `config.yaml` |
@@ -77,6 +77,10 @@ python3 Boardroom_Ear.py --anonymization full
 ```bash
 python3 Boardroom_Ear.py --input meeting.mp3 --dry-run
 ```
+
+Dry-run never imports `faster-whisper` or loads a model, so it also works on a
+fresh clone before the heavy dependencies are installed. It exits with a
+non-zero status when an input file is missing.
 
 ---
 

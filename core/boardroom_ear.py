@@ -122,7 +122,7 @@ class BoardroomEar:
 
     # --- Transcription ---
 
-    def transcribe(self, audio_path, output_dir="transcripts", dry_run=False):
+    def transcribe(self, audio_path, output_dir="transcripts"):
         self._validate_audio_file(audio_path)
         self._ensure_output_dir(output_dir)
 
@@ -135,11 +135,6 @@ class BoardroomEar:
 
         console.print(f"[bold cyan]![/bold cyan] Transcribing: [dim]{filename}[/dim]")
         logger.info("Starting transcription: %s → %s", audio_path, output_file)
-
-        if dry_run:
-            console.print("[bold yellow]DRY-RUN:[/bold yellow] Skipping actual transcription.")
-            logger.info("Dry-run mode: transcription skipped.")
-            return ""
 
         # Timeout via SIGALRM (Unix only)
         _timeout_supported = hasattr(signal, "SIGALRM")
